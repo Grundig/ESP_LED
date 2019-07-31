@@ -72,7 +72,7 @@ class MainActivity : AppCompatActivity() {
                 val statusView = findViewById<TextView>(R.id.status)
                 val ledButton = findViewById<Button>(R.id.led_button)
                 val queue = Volley.newRequestQueue(applicationContext)
-                val url = "https://api.thingspeak.com/channels/830500/fields/1.csv?api_key=H7K5MHX1WYU91GHC&results=1"//"http://$IpAddress"
+                val url = "https://api.thingspeak.com/channels/830500/feeds.json?api_key=H7K5MHX1WYU91GHC&results=1"
                 // Request a string response from the provided URL.
                 val stringRequest = StringRequest(
                     Request.Method.GET, url,

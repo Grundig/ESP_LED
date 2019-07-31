@@ -3,52 +3,49 @@ package com.example.esp_led
 
 import android.content.Intent
 
-import android.provider.ContactsContract
-import android.provider.ContactsContract.CommonDataKinds.Photo
+
 
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.recyclerview_item_row.view.*
 
-class RecyclerAdapter(private val photos: ArrayList<Photo>) : RecyclerView.Adapter<RecyclerAdapter.PhotoHolder>() {
+class RecyclerAdapter(private val devices: ArrayList<Device>) : RecyclerView.Adapter<RecyclerAdapter.DeviceHolder>() {
 
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.PhotoHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerAdapter.DeviceHolder {
         val inflatedView = parent.inflate(R.layout.recyclerview_item_row, false)
-        return PhotoHolder(inflatedView)
+        return DeviceHolder(inflatedView)
 
     }
 
-    override fun getItemCount() = photos.size
+    override fun getItemCount() = devices.size
 
-    override fun onBindViewHolder(holder: RecyclerAdapter.PhotoHolder, position: Int) {
-        val itemPhoto = photos[position]
-        holder.bindPhoto(itemPhoto)
+    override fun onBindViewHolder(holder: RecyclerAdapter.DeviceHolder, position: Int) {
+        val itemDevice = devices[position]
+        holder.bindPhoto(itemDevice)
 
     }
 
-    class PhotoHolder(v: View) : RecyclerView.ViewHolder(v), View.OnClickListener {
-        private var view: View = v
-        private var photo: Photo? = null
+    class DeviceHolder(private var view: View) : RecyclerView.ViewHolder(view), View.OnClickListener {
+        private var device: Device? = null
 
         init {
-            v.setOnClickListener(this)
+            view.setOnClickListener(this)
         }
 
         override fun onClick(v: View) {
             val context = itemView.context
-            val showPhotoIntent = Intent(context, PhotoActivity::class.java)
-            showPhotoIntent.putExtra(PHOTO_KEY, photo)
-            context.startActivity(showPhotoIntent)
+            val showDeviceIntent = Intent(context, MainActivity::class.java)
+            showDeviceIntent.putExtra(PHOTO_KEY, device)
+            context.startActivity(showDeviceIntent)
 
         }
-        fun bindPhoto(photo: Photo) {
-            this.photo = photo
-            Picasso.with(view.context).load(photo.url).into(view.itemImage)
-            view.itemDate.text = photo.humanDate
-            view.itemDescription.text = photo.explanation
+        fun bindPhoto(device: Device) {
+            this.device = device
+            view.deviceID.text = device.deviceId
+            view.voltage.text = device.voltage
+            view.led_state.text = device.led_state
         }
 
         companion object {

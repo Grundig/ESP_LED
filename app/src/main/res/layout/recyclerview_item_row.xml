@@ -6,13 +6,13 @@
         android:padding="8dp"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-    <ImageView
-            android:id="@+id/itemImage"
+    <TextView
+            android:id="@+id/deviceID"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:adjustViewBounds="true"
-            app:layout_constraintBottom_toTopOf="@+id/itemDate"
+            app:layout_constraintBottom_toTopOf="@+id/voltage"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
@@ -20,21 +20,21 @@
             app:layout_constraintVertical_bias="0.74" />
 
     <TextView
-            android:id="@+id/itemDate"
+            android:id="@+id/voltage"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="top|start"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            app:layout_constraintBottom_toTopOf="@+id/itemDescription"
+            app:layout_constraintBottom_toTopOf="@+id/led_state"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemImage"
+            app:layout_constraintTop_toBottomOf="@+id/deviceID"
             tools:text="Some date" />
 
     <TextView
-            android:id="@+id/itemDescription"
+            android:id="@+id/led_state"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center|start"
@@ -45,5 +45,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/itemDate" />
+            app:layout_constraintTop_toBottomOf="@+id/voltage" />
 </ConstraintLayout>
