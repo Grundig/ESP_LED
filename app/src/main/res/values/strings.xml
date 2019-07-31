@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">ESP_LED</string>
+    <string name="led_mode">ON</string>
+</resources>
