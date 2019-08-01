@@ -6,6 +6,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.device_list.*
 import java.util.*
 import androidx.recyclerview.widget.RecyclerView
+import android.R.attr.country
+import android.view.View
 
 
 class UserListActivity : AppCompatActivity() {
@@ -13,15 +15,16 @@ class UserListActivity : AppCompatActivity() {
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
 
-    private val lastVisibleItemPosition: Int
-        get(){linearLayoutManager.findLastVisibleItemPosition()}
+    //private val lastVisibleItemPosition: Int
+    //    get(){linearLayoutManager.findLastVisibleItemPosition()}
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.device_list)
 
-        linearLayoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
+        linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
+
         recyclerView.layoutManager = linearLayoutManager
         adapter = RecyclerAdapter(deviceList)
         recyclerView.adapter = adapter
@@ -30,14 +33,14 @@ class UserListActivity : AppCompatActivity() {
 
 
 
-        imageRequester = ImageRequester(this)
+        //imageRequester = ImageRequester(this)
 
     }
     override fun onStart() {
         super.onStart()
-        if (photosList.size == 0) {
-            requestPhoto()
-        }
+        //if (deviceList.size == 0) {
+          //  requestDevice()
+        //}
 
     }
     private fun setRecyclerViewScrollListener() {
@@ -45,10 +48,12 @@ class UserListActivity : AppCompatActivity() {
             override fun onScrollStateChanged(recyclerView: RecyclerView, newState: Int) {
                 super.onScrollStateChanged(recyclerView, newState)
                 val totalItemCount = recyclerView.layoutManager!!.itemCount
-                if (!imageRequester.isLoadingData && totalItemCount == lastVisibleItemPosition + 1) {
-                    requestPhoto()
-                }
+            //    if (!imageRequester.isLoadingData && totalItemCount == lastVisibleItemPosition + 1) {
+              //      requestPhoto()
+                //}
             }
         })
     }
+
+
 }

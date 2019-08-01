@@ -1,5 +1,9 @@
 package com.example.esp_led
 
+import org.apache.commons.csv.CSVFormat
+import org.apache.commons.csv.CSVParser
+import java.nio.file.Paths
+import java.nio.file.Files
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -21,8 +25,13 @@ import kotlinx.android.synthetic.main.activity_main.*
 import android.util.Log
 import android.widget.Button
 import android.widget.Toast
+import com.android.volley.toolbox.JsonObjectRequest
 import org.jetbrains.anko.toast
+import org.json.JSONObject
 import kotlin.concurrent.fixedRateTimer
+import com.squareup.moshi.Json
+import com.squareup.moshi.JsonClass
+
 
 
 //========GLOBAL VARIABLES==========//
@@ -30,6 +39,7 @@ var IpAddress = ""
 var EspMacAddress = ""
 var messages: List<NdefMessage> = emptyList()
 var refreshLoop: Boolean = false
+
 //==================================//
 
 
@@ -71,26 +81,32 @@ class MainActivity : AppCompatActivity() {
 
                 val statusView = findViewById<TextView>(R.id.status)
                 val ledButton = findViewById<Button>(R.id.led_button)
-                val queue = Volley.newRequestQueue(applicationContext)
-                val url = "https://api.thingspeak.com/channels/830500/feeds.json?api_key=H7K5MHX1WYU91GHC&results=1"
-                // Request a string response from the provided URL.
-                val stringRequest = StringRequest(
-                    Request.Method.GET, url,
-                    Response.Listener<String> {
-                        //statusView.text = response.substring(0,4)
-                        ledButton.text = it.substringAfterLast(',').dropLast(1)
-                        Log.v("TAG", it)
-                    },
-                    Response.ErrorListener { statusView.text = "That didn't work!" })
-
-                queue.add(stringRequest)  // Add the request to the RequestQueue.
+                requestData()
             }
         }
     }
 
+    fun requestData(){
+        val queue = Volley.newRequestQueue(applicationContext)
+        val url = "https://api.thingspeak.com/channels/830500/feeds.csv?api_key=H7K5MHX1WYU91GHC&results=1"
+        // Request a string response from the provided URL.
+        val request = StringRequest(Request.Method.GET,url,
+            Response.Listener {
+                //statusView.text = response.substring(0,4)
+                //ledButton.text = it.substringAfterLast(',').dropLast(1)
+                Log.v("TAG", it)
+                var response = it.lines()
+                var fieldNames = response[0].split(',')
+                var fieldValues = response[1].split(',')
+                fieldValues.forEach { println(it) }
+                println(fieldValues.size)
 
+            },
+            Response.ErrorListener { })//statusView.text = "That didn't work!" })
 
+        queue.add(request)  // Add the request to the RequestQueue.
 
+    }
 
 
     fun refreshStatus(view: View){

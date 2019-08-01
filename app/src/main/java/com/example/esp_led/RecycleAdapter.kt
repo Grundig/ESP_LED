@@ -1,10 +1,6 @@
 package com.example.esp_led
 
-
 import android.content.Intent
-
-
-
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -37,7 +33,7 @@ class RecyclerAdapter(private val devices: ArrayList<Device>) : RecyclerView.Ada
         override fun onClick(v: View) {
             val context = itemView.context
             val showDeviceIntent = Intent(context, MainActivity::class.java)
-            showDeviceIntent.putExtra(PHOTO_KEY, device)
+            showDeviceIntent.putExtra(DEVICE_ID, device)
             context.startActivity(showDeviceIntent)
 
         }
@@ -49,7 +45,7 @@ class RecyclerAdapter(private val devices: ArrayList<Device>) : RecyclerView.Ada
         }
 
         companion object {
-            private val PHOTO_KEY = "PHOTO"
+            private val DEVICE_ID = "DEVICE"
         }
     }
 }
