@@ -10,6 +10,7 @@ class Device(deviceJSON: JSONObject) : Serializable {
     lateinit var deviceId: String
         private set
 
+
     lateinit var voltage: String
         private set
 

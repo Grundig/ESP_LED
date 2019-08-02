@@ -31,7 +31,8 @@
 
             </intent-filter>
         </activity>
-        <activity android:name=".UserListActivity"></activity>
+        <activity android:name=".DeviceList"></activity>
+        <activity android:name=".NewDevice"></activity>
 
     </application>
 

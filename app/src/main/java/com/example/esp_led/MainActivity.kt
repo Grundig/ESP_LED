@@ -46,35 +46,19 @@ var refreshLoop: Boolean = false
 class MainActivity : AppCompatActivity() {
     val TAG:String="MainActivity"
 
-    companion object {
-        const val USER = "user"
-    }
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val ipText = findViewById<TextView>(R.id.messageIP)
+        Companion.setContext(this);
+
         val macText = findViewById<TextView>(R.id.messageMAC)
         helloMe.setOnClickListener{
             toast("Changing wifi to "+Config.SSID)
             connectToWPAWiFi(Config.SSID,Config.PASS)
         }
 
-        if (NfcAdapter.ACTION_NDEF_DISCOVERED == intent.action) {
-            intent.getParcelableArrayExtra(NfcAdapter.EXTRA_NDEF_MESSAGES)?.also { rawMessages ->
-                messages = rawMessages.map { it as NdefMessage }
-
-                // Process the messages array.
-
-
-                IpAddress = String(messages[0].records[0].payload).drop(3)
-                EspMacAddress = String(messages[0].records[1].payload).drop(3)
-                Log.v("TAG", IpAddress)
-                Log.v("TAG", EspMacAddress)
-                ipText.text = IpAddress
-                macText.text = EspMacAddress
-            }
-        }
 
         fixedRateTimer(name = "status-timer", initialDelay = 0, period = 1000) {
             if (refreshLoop) {
@@ -85,29 +69,35 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+    companion object {
+        private lateinit var context: Context
 
-    fun requestData(){
-        val queue = Volley.newRequestQueue(applicationContext)
-        val url = "https://api.thingspeak.com/channels/830500/feeds.csv?api_key=H7K5MHX1WYU91GHC&results=1"
-        // Request a string response from the provided URL.
-        val request = StringRequest(Request.Method.GET,url,
-            Response.Listener {
-                //statusView.text = response.substring(0,4)
-                //ledButton.text = it.substringAfterLast(',').dropLast(1)
-                Log.v("TAG", it)
-                var response = it.lines()
-                var fieldNames = response[0].split(',')
-                var fieldValues = response[1].split(',')
-                fieldValues.forEach { println(it) }
-                println(fieldValues.size)
+        fun setContext(con: Context) {
+            context = con
+        }
 
-            },
-            Response.ErrorListener { })//statusView.text = "That didn't work!" })
+        fun requestData() {
+            val queue = Volley.newRequestQueue(context)
+            val url = "https://api.thingspeak.com/channels/830500/feeds.csv?api_key=H7K5MHX1WYU91GHC&results=1"
+            // Request a string response from the provided URL.
+            val request = StringRequest(Request.Method.GET, url,
+                Response.Listener {
+                    //statusView.text = response.substring(0,4)
+                    //ledButton.text = it.substringAfterLast(',').dropLast(1)
+                    Log.v("TAG", it)
+                    var response = it.lines()
+                    var fieldNames = response[0].split(',')
+                    var fieldValues = response[1].split(',')
+                    fieldValues.forEach { println(it) }
+                    println(fieldValues.size)
 
-        queue.add(request)  // Add the request to the RequestQueue.
+                },
+                Response.ErrorListener { })//statusView.text = "That didn't work!" })
 
+            queue.add(request)  // Add the request to the RequestQueue.
+
+        }
     }
-
 
     fun refreshStatus(view: View){
         refreshLoop = !refreshLoop

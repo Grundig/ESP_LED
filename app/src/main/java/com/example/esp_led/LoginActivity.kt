@@ -23,8 +23,8 @@ class LoginActivity : AppCompatActivity() {
         val password = findViewById<EditText>(R.id.passwordText)
         val passText = password.text.toString()
         if(userText == "admin" && passText == "123") {
-            val loginIntent = Intent(this, MainActivity::class.java)
-            loginIntent.putExtra(MainActivity.USER, userText)
+            val loginIntent = Intent(this, DeviceList::class.java)
+            loginIntent.putExtra(DeviceList.USER, userText)
 
             startActivity(loginIntent)
         } else {

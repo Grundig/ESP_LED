@@ -6,22 +6,30 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import kotlinx.android.synthetic.main.device_list.*
 import java.util.*
 import androidx.recyclerview.widget.RecyclerView
-import android.R.attr.country
+import android.content.Intent
 import android.view.View
 
+import com.example.esp_led.MainActivity.Companion.requestData
 
-class UserListActivity : AppCompatActivity() {
+
+class DeviceList : AppCompatActivity() {
     private var deviceList: ArrayList<Device> = ArrayList()
     private lateinit var linearLayoutManager: LinearLayoutManager
     private lateinit var adapter: RecyclerAdapter
 
-    //private val lastVisibleItemPosition: Int
-    //    get(){linearLayoutManager.findLastVisibleItemPosition()}
+
+    //private val lastVisibleItemPosition = linearLayoutManager.findLastVisibleItemPosition()
+
+    companion object {
+        const val USER = "user"
+    }
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.device_list)
+        MainActivity.setContext(this)
+        requestData()
 
         linearLayoutManager = LinearLayoutManager(this, RecyclerView.VERTICAL, false)
 
@@ -30,12 +38,7 @@ class UserListActivity : AppCompatActivity() {
         recyclerView.adapter = adapter
         setRecyclerViewScrollListener()
 
-
-
-
-        //imageRequester = ImageRequester(this)
-
-    }
+        }
     override fun onStart() {
         super.onStart()
         //if (deviceList.size == 0) {
@@ -53,6 +56,13 @@ class UserListActivity : AppCompatActivity() {
                 //}
             }
         })
+    }
+
+    fun addDevice(view: View){
+        val addDeviceIntent = Intent(this, NewDevice::class.java)
+        addDeviceIntent.putExtra(NewDevice.DEVICE, deviceList.size)
+
+        startActivity(addDeviceIntent)
     }
 
 
